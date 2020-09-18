@@ -36,7 +36,7 @@ import java.text.NumberFormat;
 * <p>
 *
 * @author IP2Location.com
-* @version 8.3.0
+* @version 8.4.0
 */
 public class IP2Location {
 	private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -143,6 +143,23 @@ public class IP2Location {
 	
 	public IP2Location() {
 	
+	}
+	
+	
+	/**
+	* This function can be used to pre-load the BIN file.
+	*/
+	public void Open(String DBPath) throws IOException {
+		IPDatabasePath = DBPath;
+		LoadBIN();
+	}
+	
+	/**
+	* This function can be used to initialized the component with params and pre-load the BIN file.
+	*/
+	public void Open(String DBPath, boolean UseMMF) throws IOException {
+		UseMemoryMappedFile = UseMMF;
+		Open(DBPath);
 	}
 	
 	/**
