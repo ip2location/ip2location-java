@@ -25,10 +25,10 @@ Below are the methods supported in this class.
 
 |Method Name|Description|
 |---|---|
-|public void Open(String DBPath, boolean UseMMF)|Initialize the component and preload the BIN file.|
-|public void Open(String DBPath)|Initialize the component and preload the BIN file.|
+|Open(String DBPath, boolean UseMMF)|Initialize the component and preload the BIN file.|
+|Open(String DBPath)|Initialize the component and preload the BIN file.|
 |IPQuery(String IPAddress)|Query IP address. This method returns results in com.ip2location.IPResult object.|
-|public void Close()|Destroys the mapped bytes.|
+|Close()|Destroys the mapped bytes.|
 
 ## Result methods
 Below are the result methods.
