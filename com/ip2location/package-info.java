@@ -1,7 +1,7 @@
 /**
 * Provides classes for the IP2Location Java Component.
 * <p>
-* The IP2Location Java Component can be used to read IP2Location BIN database file to get geolocation data.
+* The IP2Location Java Component can be used to read IP2Location BIN database file to get geolocation data. It can also query the IP2Location Web Service for the same purpose.
 * <p>
 * Example usage purposes:
 * <ul>

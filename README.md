@@ -5,12 +5,18 @@ This component allows user to query an IP address for info such as the visitorâ€
 * Free IP2Location BIN Data: https://lite.ip2location.com
 * Commercial IP2Location BIN Data: https://www.ip2location.com/database/ip2location
 
+As an alternative, this component can also call the IP2Location Web Service. This requires an API key. If you don't have an existing API key, you can subscribe for one at the below:
+
+https://www.ip2location.com/web-service/ip2location
+
 ## Compilation
 
 ```bash
 javac com/ip2location/*.java
 jar cf ip2location.jar com/ip2location/*.class
 ```
+
+## QUERY USING THE BIN FILE
 
 ## Parameters
 Below are the parameters to set before using this class.
@@ -129,3 +135,196 @@ public class Main
 }
 ```
 
+## QUERY USING THE WEB SERVICE
+
+## Methods
+Below are the methods supported in this class.
+
+|Method Name|Description|
+|---|---|
+|Open(String APIKey, String Package, boolean UseSSL)|Initialize component.|
+|IPQuery(String IPAddress)|Query IP address. This method returns a JsonObject.|
+|IPQuery(String IPAddress, String Language)|Query IP address and translation language. This method returns a JsonObject.|
+|IPQuery(String IPAddress, String[] AddOns, String Language)|Query IP address and Addons. This method returns a JsonObject.|
+|GetCredit()|This method returns the web service credit balance in a JsonObject.|
+
+Below are the Addons supported in this class.
+
+|Addon Name|Description|
+|---|---|
+|continent|Returns continent code, name, hemispheres and translations.|
+|country|Returns country codes, country name, flag, capital, total area, population, currency info, language info, IDD, TLD and translations.|
+|region|Returns region code, name and translations.|
+|city|Returns city name and translations.|
+|geotargeting|Returns metro code based on the ZIP/postal code.|
+|country_groupings|Returns group acronyms and names.|
+|time_zone_info|Returns time zones, DST, GMT offset, sunrise and sunset.|
+
+## Result fields
+Below are the result fields.
+
+|Name|
+|---|
+|<ul><li>country_code</li><li>country_name</li><li>region_name</li><li>city_name</li><li>latitude</li><li>longitude</li><li>zip_code</li><li>time_zone</li><li>isp</li><li>domain</li><li>net_speed</li><li>idd_code</li><li>area_code</li><li>weather_station_code</li><li>weather_station_name</li><li>mcc</li><li>mnc</li><li>mobile_brand</li><li>elevation</li><li>usage_type</li><li>continent<ul><li>name</li><li>code</li><li>hemisphere</li><li>translations</li></ul></li><li>country<ul><li>name</li><li>alpha3_code</li><li>numeric_code</li><li>demonym</li><li>flag</li><li>capital</li><li>total_area</li><li>population</li><li>currency<ul><li>code</li><li>name</li><li>symbol</li></ul></li><li>language<ul><li>code</li><li>name</li></ul></li><li>idd_code</li><li>tld</li><li>translations</li></ul></li><li>region<ul><li>name</li><li>code</li><li>translations</li></ul></li><li>city<ul><li>name</li><li>translations</li></ul></li><li>geotargeting<ul><li>metro</li></ul></li><li>country_groupings</li><li>time_zone_info<ul><li>olson</li><li>current_time</li><li>gmt_offset</li><li>is_dst</li><li>sunrise</li><li>sunset</li></ul></li><ul>|
+
+## Usage
+
+```java
+import com.ip2location.*;
+import com.google.gson.*;
+
+public class Main 
+{
+	public Main() 
+	{
+	}
+	public static void main(String[] args) 
+	{
+		try
+		{
+			IP2LocationWebService ws = new IP2LocationWebService();
+			
+			String strIPAddress = "8.8.8.8";
+			String strAPIKey = "YOUR_API_KEY_HERE";
+			String strPackage = "WS24";
+			String[] addOn = {"continent", "country", "region", "city", "geotargeting", "country_groupings", "time_zone_info"};
+			String strLang = "es";
+			boolean boolSSL = true;
+			
+			ws.Open(strAPIKey, strPackage, boolSSL);
+			
+			JsonObject myresult = ws.IPQuery(strIPAddress, addOn, strLang);
+			
+			if (myresult.get("response") == null)
+			{
+				// standard results
+				System.out.println("country_code: " + ((myresult.get("country_code") != null) ? myresult.get("country_code").getAsString() : ""));
+				System.out.println("country_name: " + ((myresult.get("country_name") != null) ? myresult.get("country_name").getAsString() : ""));
+				System.out.println("region_name: " + ((myresult.get("region_name") != null) ? myresult.get("region_name").getAsString() : ""));
+				System.out.println("city_name: " + ((myresult.get("city_name") != null) ? myresult.get("city_name").getAsString() : ""));
+				System.out.println("latitude: " + ((myresult.get("latitude") != null) ? myresult.get("latitude").getAsString() : ""));
+				System.out.println("longitude: " + ((myresult.get("longitude") != null) ? myresult.get("longitude").getAsString() : ""));
+				System.out.println("zip_code: " + ((myresult.get("zip_code") != null) ? myresult.get("zip_code").getAsString() : ""));
+				System.out.println("time_zone: " + ((myresult.get("time_zone") != null) ? myresult.get("time_zone").getAsString() : ""));
+				System.out.println("isp: " + ((myresult.get("isp") != null) ? myresult.get("isp").getAsString() : ""));
+				System.out.println("domain: " + ((myresult.get("domain") != null) ? myresult.get("domain").getAsString() : ""));
+				System.out.println("net_speed: " + ((myresult.get("net_speed") != null) ? myresult.get("net_speed").getAsString() : ""));
+				System.out.println("idd_code: " + ((myresult.get("idd_code") != null) ? myresult.get("idd_code").getAsString() : ""));
+				System.out.println("area_code: " + ((myresult.get("area_code") != null) ? myresult.get("area_code").getAsString() : ""));
+				System.out.println("weather_station_code: " + ((myresult.get("weather_station_code") != null) ? myresult.get("weather_station_code").getAsString() : ""));
+				System.out.println("weather_station_name: " + ((myresult.get("weather_station_name") != null) ? myresult.get("weather_station_name").getAsString() : ""));
+				System.out.println("mcc: " + ((myresult.get("mcc") != null) ? myresult.get("mcc").getAsString() : ""));
+				System.out.println("mnc: " + ((myresult.get("mnc") != null) ? myresult.get("mnc").getAsString() : ""));
+				System.out.println("mobile_brand: " + ((myresult.get("mobile_brand") != null) ? myresult.get("mobile_brand").getAsString() : ""));
+				System.out.println("elevation: " + ((myresult.get("elevation") != null) ? myresult.get("elevation").getAsString() : ""));
+				System.out.println("usage_type: " + ((myresult.get("usage_type") != null) ? myresult.get("usage_type").getAsString() : ""));
+				System.out.println("credits_consumed: " + ((myresult.get("credits_consumed") != null) ? myresult.get("credits_consumed").getAsString() : ""));
+				
+				// continent addon
+				if (myresult.get("continent") != null)
+				{
+					JsonObject continentObj = myresult.getAsJsonObject("continent");
+					System.out.println("continent => name: " + continentObj.get("name").getAsString());
+					System.out.println("continent => code: " + continentObj.get("code").getAsString());
+					JsonArray myarr = continentObj.getAsJsonArray("hemisphere");
+					System.out.println("continent => hemisphere: " + myarr.toString());
+					System.out.println("continent => translations: " + continentObj.getAsJsonObject("translations").get(strLang).getAsString());
+				}
+				
+				// country addon
+				if (myresult.get("country") != null)
+				{
+					JsonObject countryObj = myresult.getAsJsonObject("country");
+					System.out.println("country => name: " + countryObj.get("name").getAsString());
+					System.out.println("country => alpha3_code: " + countryObj.get("alpha3_code").getAsString());
+					System.out.println("country => numeric_code: " + countryObj.get("numeric_code").getAsString());
+					System.out.println("country => demonym: " + countryObj.get("demonym").getAsString());
+					System.out.println("country => flag: " + countryObj.get("flag").getAsString());
+					System.out.println("country => capital: " + countryObj.get("capital").getAsString());
+					System.out.println("country => total_area: " + countryObj.get("total_area").getAsString());
+					System.out.println("country => population: " + countryObj.get("population").getAsString());
+					System.out.println("country => idd_code: " + countryObj.get("idd_code").getAsString());
+					System.out.println("country => tld: " + countryObj.get("tld").getAsString());
+					System.out.println("country => translations: " + countryObj.getAsJsonObject("translations").get(strLang).getAsString());
+					
+					JsonObject currencyObj = countryObj.getAsJsonObject("currency");
+					System.out.println("country => currency => code: " + currencyObj.get("code").getAsString());
+					System.out.println("country => currency => name: " + currencyObj.get("name").getAsString());
+					System.out.println("country => currency => symbol: " + currencyObj.get("symbol").getAsString());
+					
+					JsonObject languageObj = countryObj.getAsJsonObject("language");
+					System.out.println("country => language => code: " + languageObj.get("code").getAsString());
+					System.out.println("country => language => name: " + languageObj.get("name").getAsString());
+				}
+				
+				// region addon
+				if (myresult.get("region") != null)
+				{
+					JsonObject regionObj = myresult.getAsJsonObject("region");
+					System.out.println("region => name: " + regionObj.get("name").getAsString());
+					System.out.println("region => code: " + regionObj.get("code").getAsString());
+					System.out.println("region => translations: " + regionObj.getAsJsonObject("translations").get(strLang).getAsString());
+				}
+				
+				// city addon
+				if (myresult.get("city") != null)
+				{
+					JsonObject cityObj = myresult.getAsJsonObject("city");
+					System.out.println("city => name: " + cityObj.get("name").getAsString());
+					System.out.println("city => translations: " + cityObj.getAsJsonArray("translations").toString());
+				}
+				
+				// geotargeting addon
+				if (myresult.get("geotargeting") != null)
+				{
+					JsonObject geoObj = myresult.getAsJsonObject("geotargeting");
+					System.out.println("geotargeting => metro: " + geoObj.get("metro").getAsString());
+				}
+				
+				// country_groupings addon
+				if (myresult.get("country_groupings") != null)
+				{
+					JsonArray myarr = myresult.getAsJsonArray("country_groupings");
+					if (myarr.size() > 0)
+					{
+						for (int x = 0; x < myarr.size(); x++)
+						{
+							System.out.println("country_groupings => #" + x + " => acronym: " + myarr.get(x).getAsJsonObject().get("acronym").getAsString());
+							System.out.println("country_groupings => #" + x + " => name: " + myarr.get(x).getAsJsonObject().get("name").getAsString());
+						}
+					}
+				}
+				
+				// time_zone_info addon
+				if (myresult.get("time_zone_info") != null)
+				{
+					JsonObject tzObj = myresult.getAsJsonObject("time_zone_info");
+					System.out.println("time_zone_info => olson: " + tzObj.get("olson").getAsString());
+					System.out.println("time_zone_info => current_time: " + tzObj.get("current_time").getAsString());
+					System.out.println("time_zone_info => gmt_offset: " + tzObj.get("gmt_offset").getAsString());
+					System.out.println("time_zone_info => is_dst: " + tzObj.get("is_dst").getAsString());
+					System.out.println("time_zone_info => sunrise: " + tzObj.get("sunrise").getAsString());
+					System.out.println("time_zone_info => sunset: " + tzObj.get("sunset").getAsString());
+				}
+			}
+			else
+			{
+				System.out.println("Error: " + myresult.get("response").getAsString());
+			}
+			
+			myresult = ws.GetCredit();
+			
+			if (myresult.get("response") != null)
+			{
+				System.out.println("Credit balance: " + myresult.get("response").getAsString());
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			e.printStackTrace(System.out);
+		}
+	}
+}
+
+```
