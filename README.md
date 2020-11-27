@@ -1,11 +1,11 @@
-# IP2Location Java Component
+# IP2Location IP Geolocation Java Component
 
-This component allows user to query an IP address for info such as the visitor’s country, region, city, latitude, longitude, ZIP code, ISP name, domain name, time zone, connection speed, IDD code, area code, weather station code, weather station name, MCC, MNC, mobile brand name, elevation and usage type. It lookup the IP address from **IP2Location BIN Data** file. This data file can be downloaded at
+This IP Geolocation Java component allows user to query an IP address for info such as the visitor’s country, region, city, ISP or company name. In addition, users can also determine extra useful geolocation information such as latitude, longitude, ZIP code, domain name, time zone, connection speed, IDD code, area code, weather station code, weather station name, MCC, MNC, mobile brand name, elevation and usage type. It lookup the IP address from **IP2Location BIN Data** file. This data file can be downloaded at
 
-* Free IP2Location BIN Data: https://lite.ip2location.com
-* Commercial IP2Location BIN Data: https://www.ip2location.com/database/ip2location
+* Free IP2Location IP Geolocation BIN Data: https://lite.ip2location.com
+* Commercial IP2Location IP Geolocation BIN Data: https://www.ip2location.com/database/ip2location
 
-As an alternative, this component can also call the IP2Location Web Service. This requires an API key. If you don't have an existing API key, you can subscribe for one at the below:
+As an alternative, this IP Geolocation Java component can also call the IP2Location Web Service. This requires an API key. If you don't have an existing API key, you can subscribe for one at the below:
 
 https://www.ip2location.com/web-service/ip2location
 
@@ -135,7 +135,7 @@ public class Main
 }
 ```
 
-## QUERY USING THE WEB SERVICE
+## QUERY USING THE IP2LOCATION IP GEOLOCATION WEB SERVICE
 
 ## Methods
 Below are the methods supported in this class.
