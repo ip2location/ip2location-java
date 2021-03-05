@@ -32,11 +32,11 @@ import java.text.NumberFormat;
 * <p>
 * <b>Requirements:</b> Java SDK 1.4 or later<br>
 * <p>
-* Copyright (c) 2002-2020 IP2Location.com
+* Copyright (c) 2002-2021 IP2Location.com
 * <p>
 *
 * @author IP2Location.com
-* @version 8.5.0
+* @version 8.5.1
 */
 public class IP2Location {
 	private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -166,25 +166,15 @@ public class IP2Location {
 	* This function destroys the mapped bytes.
 	*/
 	public void Close() {
-		if (_MetaData != null) {
-			_MetaData = null;
-		}
+		_MetaData = null;
 		DestroyMappedBytes();
 	}
 	
 	private void DestroyMappedBytes() {
-		if (_IPv4Buffer != null) {
-			_IPv4Buffer = null;
-		}
-		// if (_IndexBuffer != null) {
-			// _IndexBuffer = null;
-		// }
-		if (_IPv6Buffer != null) {
-			_IPv6Buffer = null;
-		}
-		if (_MapDataBuffer != null) {
-			_MapDataBuffer = null;
-		}
+		_IPv4Buffer = null;
+		// _IndexBuffer = null;
+		_IPv6Buffer = null;
+		_MapDataBuffer = null;
 	}
 	
 	private void CreateMappedBytes() throws IOException {
@@ -197,56 +187,41 @@ public class IP2Location {
 			final FileChannel inChannel = aFile.getChannel();
 			CreateMappedBytes(inChannel);
 		}
-		// catch (FileNotFoundException ex1) {
-			// throw ex1;
-		// }
-		catch (IOException ex) { // includes FileNotFoundException
-			throw ex;
-		}
 		finally {
 			if (aFile != null) {
 				aFile.close();
-				aFile = null;
 			}
 		}
 	}
 	
 	private void CreateMappedBytes(FileChannel inChannel) throws IOException {
-		try {
-			if (_IPv4Buffer == null) {
-				final long _IPv4Bytes = (long)_IPv4ColumnSize * (long)_MetaData.getDBCount();
-				_IPv4Offset = _MetaData.getBaseAddr() - 1;
-				_IPv4Buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IPv4Offset, _IPv4Bytes);
-				_IPv4Buffer.order(ByteOrder.LITTLE_ENDIAN);
-				_MapDataOffset = _IPv4Offset + _IPv4Bytes;
-			}
-			
-			// NO LONGER USING BUFFER AS IT IS TOO SLOW, USING MULTI-DIMENSIONAL ARRAY NOW
-			// if (_MetaData.getIndexed()) {
-				// final int _IndexBytes = _MetaData.getBaseAddr() - _MetaData.getIndexBaseAddr();
-				// _IndexOffset =  _MetaData.getIndexBaseAddr() - 1;
-				// _IndexBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IndexOffset, _IndexBytes);
-				// _IndexBuffer.order(ByteOrder.LITTLE_ENDIAN);
-			// }
-			
-			if (!_MetaData.getOldBIN() && _IPv6Buffer == null) {
-				final long _IPv6Bytes = (long)_IPv6ColumnSize * (long)_MetaData.getDBCountIPv6();
-				_IPv6Offset = _MetaData.getBaseAddrIPv6() - 1;
-				_IPv6Buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IPv6Offset, _IPv6Bytes);
-				_IPv6Buffer.order(ByteOrder.LITTLE_ENDIAN);
-				_MapDataOffset = _IPv6Offset + _IPv6Bytes;
-			}
-			
-			if (_MapDataBuffer == null) {
-				_MapDataBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _MapDataOffset, inChannel.size() - _MapDataOffset);
-				_MapDataBuffer.order(ByteOrder.LITTLE_ENDIAN);
-			}
+		if (_IPv4Buffer == null) {
+			final long _IPv4Bytes = (long)_IPv4ColumnSize * (long)_MetaData.getDBCount();
+			_IPv4Offset = _MetaData.getBaseAddr() - 1;
+			_IPv4Buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IPv4Offset, _IPv4Bytes);
+			_IPv4Buffer.order(ByteOrder.LITTLE_ENDIAN);
+			_MapDataOffset = _IPv4Offset + _IPv4Bytes;
 		}
-		// catch (FileNotFoundException ex1) {
-			// throw ex1;
+		
+		// NO LONGER USING BUFFER AS IT IS TOO SLOW, USING MULTI-DIMENSIONAL ARRAY NOW
+		// if (_MetaData.getIndexed()) {
+			// final int _IndexBytes = _MetaData.getBaseAddr() - _MetaData.getIndexBaseAddr();
+			// _IndexOffset =  _MetaData.getIndexBaseAddr() - 1;
+			// _IndexBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IndexOffset, _IndexBytes);
+			// _IndexBuffer.order(ByteOrder.LITTLE_ENDIAN);
 		// }
-		catch (IOException ex) { // includes FileNotFoundException
-			throw ex;
+		
+		if (!_MetaData.getOldBIN() && _IPv6Buffer == null) {
+			final long _IPv6Bytes = (long)_IPv6ColumnSize * (long)_MetaData.getDBCountIPv6();
+			_IPv6Offset = _MetaData.getBaseAddrIPv6() - 1;
+			_IPv6Buffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _IPv6Offset, _IPv6Bytes);
+			_IPv6Buffer.order(ByteOrder.LITTLE_ENDIAN);
+			_MapDataOffset = _IPv6Offset + _IPv6Bytes;
+		}
+		
+		if (_MapDataBuffer == null) {
+			_MapDataBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _MapDataOffset, inChannel.size() - _MapDataOffset);
+			_MapDataBuffer.order(ByteOrder.LITTLE_ENDIAN);
 		}
 	}
 	
@@ -359,25 +334,25 @@ public class IP2Location {
 				ELEVATION_POSITION_OFFSET = (ELEVATION_POSITION[dbtype] != 0) ? (ELEVATION_POSITION[dbtype] - 2) << 2 : 0;
 				USAGETYPE_POSITION_OFFSET = (USAGETYPE_POSITION[dbtype] != 0) ? (USAGETYPE_POSITION[dbtype] - 2) << 2 : 0;
 				
-				COUNTRY_ENABLED = (COUNTRY_POSITION[dbtype]!=0) ? true : false;
-				REGION_ENABLED = (REGION_POSITION[dbtype]!=0) ? true : false;
-				CITY_ENABLED = (CITY_POSITION[dbtype]!=0) ? true : false;
-				ISP_ENABLED = (ISP_POSITION[dbtype]!=0) ? true : false;
-				LATITUDE_ENABLED = (LATITUDE_POSITION[dbtype]!=0) ? true : false;
-				LONGITUDE_ENABLED = (LONGITUDE_POSITION[dbtype]!=0) ? true : false;
-				DOMAIN_ENABLED = (DOMAIN_POSITION[dbtype]!=0) ? true : false;
-				ZIPCODE_ENABLED = (ZIPCODE_POSITION[dbtype]!=0) ? true : false;
-				TIMEZONE_ENABLED = (TIMEZONE_POSITION[dbtype]!=0) ? true : false;
-				NETSPEED_ENABLED = (NETSPEED_POSITION[dbtype]!=0) ? true : false;
-				IDDCODE_ENABLED = (IDDCODE_POSITION[dbtype]!=0) ? true : false;
-				AREACODE_ENABLED = (AREACODE_POSITION[dbtype]!=0) ? true : false;
-				WEATHERSTATIONCODE_ENABLED = (WEATHERSTATIONCODE_POSITION[dbtype]!=0) ? true : false;
-				WEATHERSTATIONNAME_ENABLED = (WEATHERSTATIONNAME_POSITION[dbtype]!=0) ? true : false;
-				MCC_ENABLED = (MCC_POSITION[dbtype]!=0) ? true : false;
-				MNC_ENABLED = (MNC_POSITION[dbtype]!=0) ? true : false;
-				MOBILEBRAND_ENABLED = (MOBILEBRAND_POSITION[dbtype]!=0) ? true : false;
-				ELEVATION_ENABLED = (ELEVATION_POSITION[dbtype]!=0) ? true : false;
-				USAGETYPE_ENABLED = (USAGETYPE_POSITION[dbtype]!=0) ? true : false;
+				COUNTRY_ENABLED = (COUNTRY_POSITION[dbtype]!=0);
+				REGION_ENABLED = (REGION_POSITION[dbtype]!=0);
+				CITY_ENABLED = (CITY_POSITION[dbtype]!=0);
+				ISP_ENABLED = (ISP_POSITION[dbtype]!=0);
+				LATITUDE_ENABLED = (LATITUDE_POSITION[dbtype]!=0);
+				LONGITUDE_ENABLED = (LONGITUDE_POSITION[dbtype]!=0);
+				DOMAIN_ENABLED = (DOMAIN_POSITION[dbtype]!=0);
+				ZIPCODE_ENABLED = (ZIPCODE_POSITION[dbtype]!=0);
+				TIMEZONE_ENABLED = (TIMEZONE_POSITION[dbtype]!=0);
+				NETSPEED_ENABLED = (NETSPEED_POSITION[dbtype]!=0);
+				IDDCODE_ENABLED = (IDDCODE_POSITION[dbtype]!=0);
+				AREACODE_ENABLED = (AREACODE_POSITION[dbtype]!=0);
+				WEATHERSTATIONCODE_ENABLED = (WEATHERSTATIONCODE_POSITION[dbtype]!=0);
+				WEATHERSTATIONNAME_ENABLED = (WEATHERSTATIONNAME_POSITION[dbtype]!=0);
+				MCC_ENABLED = (MCC_POSITION[dbtype]!=0);
+				MNC_ENABLED = (MNC_POSITION[dbtype]!=0);
+				MOBILEBRAND_ENABLED = (MOBILEBRAND_POSITION[dbtype]!=0);
+				ELEVATION_ENABLED = (ELEVATION_POSITION[dbtype]!=0);
+				USAGETYPE_ENABLED = (USAGETYPE_POSITION[dbtype]!=0);
 				
 				if (_MetaData.getIndexed()) {
 					// aFile2 = new FileInputStream(IPDatabasePath);
@@ -421,13 +396,9 @@ public class IP2Location {
 				loadOK = true;
 			}
 		}
-		catch(IOException ex) {
-			throw ex;
-		}
 		finally {
 			if (aFile != null) {
 				aFile.close();
-				aFile = null;
 			}
 		}
 		return loadOK;
@@ -819,14 +790,9 @@ public class IP2Location {
 			}
 			return record;
 		}
-		catch(IOException ex) {
-			// ex.printStackTrace(System.out);
-			throw ex;
-		}
 		finally {
 			if (filehandle != null) {
 				filehandle.close();
-				filehandle = null;
 			}
 		}
 	}
@@ -868,8 +834,6 @@ public class IP2Location {
 					
 					myIP2 = myIP2.replaceAll(mymatch + "$", ":" + b[3] + "." + b[2] + "." + b[1] + "." + b[0]);
 					myIP2 = myIP2.replaceAll("::", tmp);
-				}
-				else {
 				}
 			}
 		}
@@ -961,7 +925,6 @@ public class IP2Location {
 						bf2.append(bf4).append(bf3);
 						myIP2 = bf2.toString().replaceAll(":$", "");
 					}
-					
 				}
 				else {
 					// expand IPv4-compatible IPv6
