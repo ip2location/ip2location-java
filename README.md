@@ -47,7 +47,7 @@ Below are the result methods.
 |getCity|City name.|
 |getLatitude|City level latitude.|
 |getLongitude|City level longitude.|
-|getZIPCode|ZIP code or postal code.|
+|getZipCode|ZIP code or postal code.|
 |getTimeZone|Time zone in UTC (Coordinated Universal Time).|
 |getISP|Internet Service Provider (ISP) name.|
 |getDomain|Domain name associated to IP address range.|
