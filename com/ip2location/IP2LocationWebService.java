@@ -27,7 +27,7 @@ import org.apache.commons.lang3.StringUtils;
 * <p>
 *
 * @author IP2Location.com
-* @version 8.5.1
+* @version 8.5.2
 */
 public class IP2LocationWebService {
 	private static final Pattern pattern = Pattern.compile("^[\\dA-Z]{10}$");
@@ -43,6 +43,9 @@ public class IP2LocationWebService {
 	
 	/**
 	* This function initializes the params for the web service.
+	* @param APIKey IP2Location Web Service API key
+	* @param Package IP2Location Web Service package (WS1 to WS24)
+	* @throws IllegalArgumentException  If an invalid parameter is specified
 	*/
 	public void Open(String APIKey, String Package) throws IllegalArgumentException {
 		Open(APIKey, Package, true);
@@ -50,6 +53,10 @@ public class IP2LocationWebService {
 	
 	/**
 	* This function initializes the params for the web service.
+	* @param APIKey IP2Location Web Service API key
+	* @param Package IP2Location Web Service package (WS1 to WS24)
+	* @param UseSSL Set to true to call the web service using SSL
+	* @throws IllegalArgumentException  If an invalid parameter is specified
 	*/
 	public void Open(String APIKey, String Package, boolean UseSSL) throws IllegalArgumentException {
 		_APIKey = APIKey;
@@ -74,6 +81,8 @@ public class IP2LocationWebService {
 /**
 * This function to query IP2Location data.
 * @param IPAddress IP Address you wish to query
+* @throws IllegalArgumentException  If an invalid parameter is specified
+* @throws RuntimeException  If an exception occurred at runtime
 * @return IP2Location data
 */
 	public JsonObject IPQuery(String IPAddress) throws IllegalArgumentException, RuntimeException {
@@ -82,7 +91,10 @@ public class IP2LocationWebService {
 	
 /**
 * This function to query IP2Location data.
-* @param IPAddress IP Address you wish to query and translation language
+* @param IPAddress IP Address you wish to query
+* @param Language The translation language
+* @throws IllegalArgumentException  If an invalid parameter is specified
+* @throws RuntimeException  If an exception occurred at runtime
 * @return IP2Location data
 */
 	public JsonObject IPQuery(String IPAddress, String Language) throws IllegalArgumentException, RuntimeException {
@@ -91,7 +103,11 @@ public class IP2LocationWebService {
 	
 /**
 * This function to query IP2Location data.
-* @param IPAddress IP Address you wish to query, Addons and translation language
+* @param IPAddress IP Address you wish to query
+* @param AddOns The list of AddOns results to return
+* @param Language The translation language
+* @throws IllegalArgumentException  If an invalid parameter is specified
+* @throws RuntimeException  If an exception occurred at runtime
 * @return IP2Location data
 */
 	public JsonObject IPQuery(String IPAddress, String[] AddOns, String Language) throws IllegalArgumentException, RuntimeException {
@@ -128,6 +144,8 @@ public class IP2LocationWebService {
 	
 /**
 * This function to check web service credit balance.
+* @throws IllegalArgumentException  If an invalid parameter is specified
+* @throws RuntimeException  If an exception occurred at runtime
 * @return Credit balance
 */
 	public JsonObject GetCredit() throws IllegalArgumentException, RuntimeException {
