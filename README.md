@@ -1,6 +1,6 @@
 # IP2Location IP Geolocation Java Component
 
-This IP Geolocation Java component allows user to query an IP address for info such as the visitor’s country, region, city, ISP or company name. In addition, users can also determine extra useful geolocation information such as latitude, longitude, ZIP code, domain name, time zone, connection speed, IDD code, area code, weather station code, weather station name, MCC, MNC, mobile brand name, elevation and usage type. It lookup the IP address from **IP2Location BIN Data** file. This data file can be downloaded at
+This IP Geolocation Java component allows user to query an IP address for info such as the visitor’s country, region, city, ISP or company name. In addition, users can also determine extra useful geolocation information such as latitude, longitude, ZIP code, domain name, time zone, connection speed, IDD code, area code, weather station code, weather station name, MCC, MNC, mobile brand name, elevation, usage type, address type & IAB category. It lookup the IP address from **IP2Location BIN Data** file. This data file can be downloaded at
 
 * Free IP2Location IP Geolocation BIN Data: https://lite.ip2location.com
 * Commercial IP2Location IP Geolocation BIN Data: https://www.ip2location.com/database/ip2location
@@ -61,6 +61,8 @@ Below are the result methods.
 |getMobileBrand|Mobile carrier brand.|
 |getElevation|Average height of city above sea level in meters (m).|
 |getUsageType|Usage type classification of ISP or company:<ul><li>(COM) Commercial</li><li>(ORG) Organization</li><li>(GOV) Government</li><li>(MIL) Military</li><li>(EDU) University/College/School</li><li>(LIB) Library</li><li>(CDN) Content Delivery Network</li><li>(ISP) Fixed Line ISP</li><li>(MOB) Mobile ISP</li><li>(DCH) Data Center/Web Hosting/Transit</li><li>(SES) Search Engine Spider</li><li>(RSV) Reserved</li></ul>|
+|getAddressType|IP address types as defined in Internet Protocol version 4 (IPv4) and Internet Protocol version 6 (IPv6).<ul><li>(A) Anycast - One to the closest</li><li>(U) Unicast - One to one</li><li>(M) Multicast - One to multiple</li><li>(B) Broadcast - One to all</li></ul>|
+|getCategory|The domain category is based on [IAB Tech Lab Content Taxonomy](https://www.ip2location.com/free/iab-categories). These categories are comprised of Tier-1 and Tier-2 (if available) level categories widely used in services like advertising, Internet security and filtering appliances.|
 |getStatus|Status code of query.|
 
 ## Status codes
@@ -89,10 +91,9 @@ public class Main
 		try
 		{
 			String ip = "8.8.8.8";
-			String binfile = "/usr/data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE-TIMEZONE-ISP-DOMAIN-NETSPEED-AREACODE-WEATHER-MOBILE-ELEVATION-USAGETYPE.BIN";
+			String binfile = "/usr/data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE-TIMEZONE-ISP-DOMAIN-NETSPEED-AREACODE-WEATHER-MOBILE-ELEVATION-USAGETYPE-ADDRESSTYPE-CATEGORY.BIN";
 			
 			IP2Location loc = new IP2Location();
-			// loc.IPDatabasePath = binfile;
 			loc.Open(binfile, true);
 			
 			IPResult rec = loc.IPQuery(ip);
@@ -165,7 +166,7 @@ Below are the result fields.
 
 |Name|
 |---|
-|<ul><li>country_code</li><li>country_name</li><li>region_name</li><li>city_name</li><li>latitude</li><li>longitude</li><li>zip_code</li><li>time_zone</li><li>isp</li><li>domain</li><li>net_speed</li><li>idd_code</li><li>area_code</li><li>weather_station_code</li><li>weather_station_name</li><li>mcc</li><li>mnc</li><li>mobile_brand</li><li>elevation</li><li>usage_type</li><li>continent<ul><li>name</li><li>code</li><li>hemisphere</li><li>translations</li></ul></li><li>country<ul><li>name</li><li>alpha3_code</li><li>numeric_code</li><li>demonym</li><li>flag</li><li>capital</li><li>total_area</li><li>population</li><li>currency<ul><li>code</li><li>name</li><li>symbol</li></ul></li><li>language<ul><li>code</li><li>name</li></ul></li><li>idd_code</li><li>tld</li><li>translations</li></ul></li><li>region<ul><li>name</li><li>code</li><li>translations</li></ul></li><li>city<ul><li>name</li><li>translations</li></ul></li><li>geotargeting<ul><li>metro</li></ul></li><li>country_groupings</li><li>time_zone_info<ul><li>olson</li><li>current_time</li><li>gmt_offset</li><li>is_dst</li><li>sunrise</li><li>sunset</li></ul></li><ul>|
+|<ul><li>country_code</li><li>country_name</li><li>region_name</li><li>city_name</li><li>latitude</li><li>longitude</li><li>zip_code</li><li>time_zone</li><li>isp</li><li>domain</li><li>net_speed</li><li>idd_code</li><li>area_code</li><li>weather_station_code</li><li>weather_station_name</li><li>mcc</li><li>mnc</li><li>mobile_brand</li><li>elevation</li><li>usage_type</li><li>address_type</li><li>category</li><li>category_name</li><li>continent<ul><li>name</li><li>code</li><li>hemisphere</li><li>translations</li></ul></li><li>country<ul><li>name</li><li>alpha3_code</li><li>numeric_code</li><li>demonym</li><li>flag</li><li>capital</li><li>total_area</li><li>population</li><li>currency<ul><li>code</li><li>name</li><li>symbol</li></ul></li><li>language<ul><li>code</li><li>name</li></ul></li><li>idd_code</li><li>tld</li><li>translations</li></ul></li><li>region<ul><li>name</li><li>code</li><li>translations</li></ul></li><li>city<ul><li>name</li><li>translations</li></ul></li><li>geotargeting<ul><li>metro</li></ul></li><li>country_groupings</li><li>time_zone_info<ul><li>olson</li><li>current_time</li><li>gmt_offset</li><li>is_dst</li><li>sunrise</li><li>sunset</li></ul></li><ul>|
 
 ## Usage
 
@@ -186,7 +187,7 @@ public class Main
 			
 			String strIPAddress = "8.8.8.8";
 			String strAPIKey = "YOUR_API_KEY_HERE";
-			String strPackage = "WS24";
+			String strPackage = "WS25";
 			String[] addOn = {"continent", "country", "region", "city", "geotargeting", "country_groupings", "time_zone_info"};
 			String strLang = "es";
 			boolean boolSSL = true;
@@ -218,6 +219,9 @@ public class Main
 				System.out.println("mobile_brand: " + ((myresult.get("mobile_brand") != null) ? myresult.get("mobile_brand").getAsString() : ""));
 				System.out.println("elevation: " + ((myresult.get("elevation") != null) ? myresult.get("elevation").getAsString() : ""));
 				System.out.println("usage_type: " + ((myresult.get("usage_type") != null) ? myresult.get("usage_type").getAsString() : ""));
+				System.out.println("address_type: " + ((myresult.get("address_type") != null) ? myresult.get("address_type").getAsString() : ""));
+				System.out.println("category: " + ((myresult.get("category") != null) ? myresult.get("category").getAsString() : ""));
+				System.out.println("category_name: " + ((myresult.get("category_name") != null) ? myresult.get("category_name").getAsString() : ""));
 				System.out.println("credits_consumed: " + ((myresult.get("credits_consumed") != null) ? myresult.get("credits_consumed").getAsString() : ""));
 				
 				// continent addon
