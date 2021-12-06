@@ -36,7 +36,7 @@ import java.text.NumberFormat;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.6.0
+ * @version 8.7.0
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -218,10 +218,11 @@ public class IP2Location {
         try {
             if (IPDatabasePath.length() > 0) {
                 aFile = new RandomAccessFile(IPDatabasePath, "r");
-                final FileChannel inChannel = aFile.getChannel();
-                final MappedByteBuffer _HeaderBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, 0, 64); // 64 bytes header
-
+                byte[] _HeaderData = new byte[64];
+                aFile.read(_HeaderData);
+                ByteBuffer _HeaderBuffer = ByteBuffer.wrap(_HeaderData);
                 _HeaderBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
                 _MetaData = new MetaData();
 
                 _MetaData.setDBType(_HeaderBuffer.get(0));
@@ -309,8 +310,17 @@ public class IP2Location {
                 CATEGORY_ENABLED = (CATEGORY_POSITION[dbtype] != 0);
 
                 if (_MetaData.getIndexed()) {
-                    final MappedByteBuffer _IndexBuffer = inChannel.map(FileChannel.MapMode.READ_ONLY, _MetaData.getIndexBaseAddr() - 1, _MetaData.getBaseAddr() - _MetaData.getIndexBaseAddr()); // reading indexes
+                    int readLen = _IndexArrayIPv4.length;
+                    if (_MetaData.getIndexedIPv6()) {
+                        readLen += _IndexArrayIPv6.length;
+                    }
+
+                    byte[] _IndexData = new byte[readLen * 8]; // 4 bytes for both from row and to row
+                    aFile.seek(_MetaData.getIndexBaseAddr() - 1);
+                    aFile.read(_IndexData);
+                    ByteBuffer _IndexBuffer = ByteBuffer.wrap(_IndexData);
                     _IndexBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
                     int pointer = 0;
 
                     // read IPv4 index
@@ -331,7 +341,7 @@ public class IP2Location {
                 }
 
                 if (UseMemoryMappedFile) {
-                    CreateMappedBytes(inChannel);
+                    CreateMappedBytes();
                 } else {
                     DestroyMappedBytes();
                 }
@@ -365,6 +375,8 @@ public class IP2Location {
         RandomAccessFile filehandle = null;
         ByteBuffer mybuffer = null;
         ByteBuffer mydatabuffer = null;
+        byte[] row;
+        byte[] fullrow = null;
 
         try {
             if (IPAddress == null || IPAddress.length() == 0) {
@@ -407,6 +419,7 @@ public class IP2Location {
             long position;
             BigInteger ipfrom;
             BigInteger ipto;
+            int firstcol = 4; // IP From is 4 bytes
 
             // Read BIN if haven't done so
             if (_MetaData == null) {
@@ -444,6 +457,8 @@ public class IP2Location {
                     high = _IndexArrayIPv4[indexaddr][1];
                 }
             } else { // IPv6
+                firstcol = 16; // IPv6 is 16 bytes
+
                 if (_MetaData.getOldBIN()) {
                     record.status = "IPV6_NOT_SUPPORTED";
                     return record;
@@ -475,26 +490,28 @@ public class IP2Location {
                 rowoffset2 = rowoffset + mycolumnsize;
 
                 if (UseMemoryMappedFile) {
+                    // only reading the IP From fields
                     overcapacity = (rowoffset2 >= mybufcapacity);
+                    ipfrom = read32or128(rowoffset, myiptype, mybuffer, filehandle);
+                    ipto = (overcapacity) ? BigInteger.ZERO : read32or128(rowoffset2, myiptype, mybuffer, filehandle);
+                } else {
+                    // reading IP From + whole row + next IP From
+                    fullrow = readRow(rowoffset, mycolumnsize + firstcol, mybuffer, filehandle);
+                    ipfrom = read32or128Row(fullrow, 0, firstcol);
+                    ipto = (overcapacity) ? BigInteger.ZERO : read32or128Row(fullrow, mycolumnsize, firstcol);
                 }
 
-                ipfrom = read32or128(rowoffset, myiptype, mybuffer, filehandle);
-                ipto = (overcapacity) ? BigInteger.ZERO : read32or128(rowoffset2, myiptype, mybuffer, filehandle);
-
                 if (ipno.compareTo(ipfrom) >= 0 && ipno.compareTo(ipto) < 0) {
-                    int firstcol = 4; // IP From is 4 bytes
-                    if (myiptype == 6) { // IPv6
-                        firstcol = 16; // IPv6 is 16 bytes
-                    }
 
-                    // read the row here after the IP From column (remaining columns are all 4 bytes)
                     int rowlen = mycolumnsize - firstcol;
-                    byte[] row;
-                    row = readRow(rowoffset + firstcol, rowlen, mybuffer, filehandle);
 
                     if (UseMemoryMappedFile) {
+                        row = readRow(rowoffset + firstcol, rowlen, mybuffer, filehandle);
                         mydatabuffer = _MapDataBuffer.duplicate(); // this is to enable reading of a range of bytes in multi-threaded environment
                         mydatabuffer.order(ByteOrder.LITTLE_ENDIAN);
+                    } else {
+                        row = new byte[rowlen];
+                        System.arraycopy(fullrow, firstcol, row, (int) 0, rowlen); // extract the actual row data
                     }
 
                     if (COUNTRY_ENABLED) {
@@ -881,6 +898,13 @@ public class IP2Location {
         return row;
     }
 
+    private BigInteger read32or128Row(byte[] row, final int from, final int len) throws IOException {
+        byte[] buf = new byte[len];
+        System.arraycopy(row, from, buf, (int) 0, len);
+        reverse(buf);
+        return new BigInteger(1, buf);
+    }
+
     private BigInteger read32or128(final long position, final int myiptype, final ByteBuffer mybuffer, final RandomAccessFile filehandle) throws IOException {
         if (myiptype == 4) {
             return read32(position, mybuffer, filehandle);
@@ -930,27 +954,37 @@ public class IP2Location {
     }
 
     private String readStr(long position, final ByteBuffer mydatabuffer, final RandomAccessFile filehandle) throws IOException {
-        final int size;
+        int size = 257; // max size of string field + 1 byte for the position
+        final int len;
+        final byte[] data = new byte[size];
         byte[] buf;
 
         if (UseMemoryMappedFile) {
             position = position - _MapDataOffset; // position stored in BIN file is for full file, not just the mapped data segment, so need to minus
-            size = _MapDataBuffer.get((int) position); // use absolute offset to be thread-safe (keep using the original buffer since is absolute position & just reading 1 byte)
-
             try {
-                buf = new byte[size];
-                mydatabuffer.position((int) position + 1);
-                mydatabuffer.get(buf, 0, size);
+                mydatabuffer.position((int) position);
+                if (mydatabuffer.remaining() < size) {
+                    size = mydatabuffer.remaining();
+                }
+                mydatabuffer.get(data, 0, size);
+                len = data[0];
+
+                buf = new byte[len];
+                System.arraycopy(data, 1, buf, (int) 0, len);
 
             } catch (NegativeArraySizeException e) {
                 return null;
             }
+
         } else {
             filehandle.seek(position);
-            size = filehandle.read();
             try {
-                buf = new byte[size];
-                filehandle.read(buf, 0, size);
+                filehandle.read(data, 0, size);
+                len = data[0];
+
+                buf = new byte[len];
+                System.arraycopy(data, 1, buf, (int) 0, len);
+
             } catch (NegativeArraySizeException e) {
                 return null;
             }
