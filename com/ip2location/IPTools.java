@@ -1,14 +1,13 @@
 package com.ip2location;
 
 import java.math.BigInteger;
-import java.net.InetAddress;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.lang.Math;
 
 /**
  * This class contains IP address related tools.
@@ -137,6 +136,7 @@ public class IPTools {
      *
      * @param IPNum IP number you wish to convert
      * @return String
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public String DecimalToIPv4(BigInteger IPNum) throws UnknownHostException {
         if (IPNum.compareTo(BigInteger.ZERO) < 0 || IPNum.compareTo(MAX_IPV4_RANGE) > 0) {
@@ -163,6 +163,7 @@ public class IPTools {
      *
      * @param IPNum IP number you wish to convert
      * @return String
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public String DecimalToIPv6(BigInteger IPNum) throws UnknownHostException {
         if (IPNum.compareTo(BigInteger.ZERO) < 0 || IPNum.compareTo(MAX_IPV6_RANGE) > 0) {
@@ -252,6 +253,7 @@ public class IPTools {
      * @param IPFrom Starting IP of the range
      * @param IPTo   Ending IP of the range
      * @return List of strings
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public List<String> IPv4ToCIDR(String IPFrom, String IPTo) throws UnknownHostException {
         if (!IsIPv4(IPFrom) || !IsIPv4(IPTo)) {
@@ -337,6 +339,7 @@ public class IPTools {
      * @param IPFrom Starting IP of the range
      * @param IPTo   Ending IP of the range
      * @return List of strings
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public List<String> IPv6ToCIDR(String IPFrom, String IPTo) throws UnknownHostException {
         if (!IsIPv6(IPFrom) || !IsIPv6(IPTo)) {
@@ -425,6 +428,7 @@ public class IPTools {
      *
      * @param CIDR CIDR address to convert to range
      * @return Array of strings
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public String[] CIDRToIPv4(String CIDR) throws UnknownHostException {
         if (!CIDR.contains("/")) {
@@ -469,6 +473,7 @@ public class IPTools {
      *
      * @param CIDR CIDR address to convert to range
      * @return Array of strings
+     * @throws UnknownHostException If unable to convert byte array to IP address
      */
     public String[] CIDRToIPv6(String CIDR) throws UnknownHostException {
         if (!CIDR.contains("/")) {
