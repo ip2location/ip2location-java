@@ -24,11 +24,11 @@ import org.apache.commons.lang3.StringUtils;
  * <p>
  * <b>Requirements:</b> Java SDK 1.4 or later<br>
  * <p>
- * Copyright (c) 2002-2021 IP2Location.com
+ * Copyright (c) 2002-2022 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.7.0
+ * @version 8.8.0
  */
 public class IP2LocationWebService {
     private static final Pattern pattern = Pattern.compile("^[\\dA-Z]{10}$");

@@ -32,11 +32,11 @@ import java.text.NumberFormat;
  * <p>
  * <b>Requirements:</b> Java SDK 1.4 or later<br>
  * <p>
- * Copyright (c) 2002-2021 IP2Location.com
+ * Copyright (c) 2002-2022 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.7.0
+ * @version 8.8.0
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4

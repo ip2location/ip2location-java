@@ -5,11 +5,11 @@ package com.ip2location;
  * <p>
  * <b>Requirements:</b> Java SDK 1.4 or later<br>
  * <p>
- * Copyright (c) 2002-2021 IP2Location.com
+ * Copyright (c) 2002-2022 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.7.0
+ * @version 8.8.0
  */
 public class IPResult {
     static final String NOT_SUPPORTED = "Not_Supported";
@@ -38,7 +38,7 @@ public class IPResult {
     String category;
     String status;
     boolean delay = false;
-    String version = "Version 8.7.0";
+    String version = "Version 8.8.0";
 
     IPResult(String ipstring) {
         ip_address = ipstring;
