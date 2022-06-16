@@ -954,7 +954,7 @@ public class IP2Location {
     }
 
     private String readStr(long position, final ByteBuffer mydatabuffer, final RandomAccessFile filehandle) throws IOException {
-        int size = 257; // max size of string field + 1 byte for the position
+        int size = 256; // max size of string field + 1 byte for the position
         final int len;
         final byte[] data = new byte[size];
         byte[] buf;
