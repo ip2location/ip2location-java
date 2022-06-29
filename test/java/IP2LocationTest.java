@@ -15,12 +15,15 @@ class IP2LocationTest {
     private static IP2Location loc;
     private static String binfile = "IP2LOCATION-LITE-DB1.BIN";
     private static String binfilepath;
+    private static byte[] binFileBytes;
+
     private static String ip = "8.8.8.8";
 
     @BeforeAll
-    static void Setup() {
+    static void Setup() throws IOException {
         Path binpath = Paths.get("src", "test", "resources", binfile);
         binfilepath = binpath.toFile().getAbsolutePath();
+        binFileBytes = Files.readAllBytes(binpath);
     }
 
     @BeforeEach
@@ -32,6 +35,10 @@ class IP2LocationTest {
     void TestOpenException() {
         assertThrows(IOException.class, () -> {
             loc.Open("dummy.bin");
+        });
+
+        assertThrows(NullPointerException.class, () -> {
+            loc.Open((byte[])null);
         });
     }
 
