@@ -33,6 +33,7 @@ Below are the methods supported in this class.
 |---|---|
 |Open(String DBPath, boolean UseMMF)|Initialize the component and preload the BIN file.|
 |Open(String DBPath)|Initialize the component and preload the BIN file.|
+|Open(byte[] db)|Initialize the component with the byte array containing the BIN file data.|
 |IPQuery(String IPAddress)|Query IP address. This method returns results in com.ip2location.IPResult object.|
 |Close()|Destroys the mapped bytes.|
 
@@ -80,6 +81,7 @@ Below are the status codes.
 
 ```java
 import com.ip2location.*;
+// import java.nio.file.*;
 
 public class Main 
 {
@@ -94,7 +96,14 @@ public class Main
 			String binfile = "/usr/data/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ZIPCODE-TIMEZONE-ISP-DOMAIN-NETSPEED-AREACODE-WEATHER-MOBILE-ELEVATION-USAGETYPE-ADDRESSTYPE-CATEGORY.BIN";
 			
 			IP2Location loc = new IP2Location();
+			
+			// this is to initialize with a BIN file
 			loc.Open(binfile, true);
+			
+			// this is to initialize with a byte array
+			// Path binpath = Paths.get(binfile);
+			// byte[] binFileBytes = Files.readAllBytes(binpath);
+			// loc.Open(binFileBytes);
 			
 			IPResult rec = loc.IPQuery(ip);
 			if ("OK".equals(rec.getStatus()))
