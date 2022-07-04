@@ -14,7 +14,7 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 import java.lang.StringBuffer; // JDK 1.4 does not support StringBuilder so can't use that
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * This class performs the lookup of IP2Location data from an IP address by reading a BIN file.
@@ -74,6 +74,12 @@ public class IP2Location {
     private static final int[] USAGETYPE_POSITION = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 20, 20};
     private static final int[] ADDRESSTYPE_POSITION = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21};
     private static final int[] CATEGORY_POSITION = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22};
+    static final DecimalFormat GEO_COORDINATE_FORMAT;
+    static {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        GEO_COORDINATE_FORMAT = new DecimalFormat("###.######", symbols);
+    }
 
     private MetaData _MetaData = null;
     private MappedByteBuffer _IPv4Buffer = null;
@@ -1075,11 +1081,7 @@ public class IP2Location {
     }
 
     private String setDecimalPlaces(float myfloat) {
-        Locale currentLocale = Locale.getDefault();
-        NumberFormat nf = NumberFormat.getNumberInstance(currentLocale);
-        DecimalFormat df = (DecimalFormat) nf;
-        df.applyPattern("###.######");
-        return df.format(myfloat).replace(',', '.');
+        return GEO_COORDINATE_FORMAT.format(myfloat);
     }
 
     private BigInteger[] ip2No(String ipstring) throws UnknownHostException {
