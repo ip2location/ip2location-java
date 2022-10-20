@@ -408,3 +408,86 @@ public class Main
 	}
 }
 ```
+
+## COUNTRY CLASS
+
+## Methods
+Below are the methods supported in this class.
+
+|Method Name|Description|
+|---|---|
+|Constructor(CSVFile)|Expect a IP2Location Country Information CSV file. This database is free for download at https://www.ip2location.com/free/country-information|
+|GetCountryInfo(CountryCode)|Returns the country information.|
+
+## Usage
+
+```java
+import com.ip2location.*;
+import java.util.*;
+
+public class Main 
+{
+	public Main() 
+	{
+	}
+	public static void main(String[] args) 
+	{
+		try
+		{
+			Country cc = new Country("/usr/data/IP2LOCATION-COUNTRY-INFORMATION.CSV");
+			
+			Map<String, String> ccresult = cc.GetCountryInfo("US");
+			
+			System.out.println(ccresult.toString());
+			
+			List <Map<String, String>> ccresults = cc.GetCountryInfo();
+			
+			System.out.println(ccresults.toString());
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			e.printStackTrace(System.out);
+		}
+	}
+}
+```
+
+## REGION CLASS
+
+## Methods
+Below are the methods supported in this class.
+
+|Method Name|Description|
+|---|---|
+|Constructor(CSVFile)|Expect a IP2Location ISO 3166-2 Subdivision Code CSV file. This database is free for download at https://www.ip2location.com/free/iso3166-2|
+|GetRegionCode(CountryCode, RegionName)|Returns the region code for the supplied country code and region name.|
+
+## Usage
+
+```java
+import com.ip2location.*;
+
+public class Main 
+{
+	public Main() 
+	{
+	}
+	public static void main(String[] args) 
+	{
+		try
+		{
+			Region reg = new Region("/usr/data/IP2LOCATION-ISO3166-2.CSV");
+			
+			String regionCode = reg.GetRegionCode("US", "Nevada");
+			
+			System.out.println(regionCode);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+			e.printStackTrace(System.out);
+		}
+	}
+}
+```

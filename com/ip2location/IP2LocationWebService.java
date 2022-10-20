@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.9.1
+ * @version 8.10.0
  */
 public class IP2LocationWebService {
     private static final Pattern pattern = Pattern.compile("^[\\dA-Z]{10}$");

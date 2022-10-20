@@ -36,7 +36,7 @@ import java.text.DecimalFormatSymbols;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.9.1
+ * @version 8.10.0
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
