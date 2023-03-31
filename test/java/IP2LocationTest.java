@@ -196,6 +196,27 @@ class IP2LocationTest {
         assertEquals(rec.getCategory(), "Not_Supported");
     }
 
+    @Test
+    void TestQueryDistrict() throws IOException {
+        loc.Open(binfilepath);
+        IPResult rec = loc.IPQuery(ip);
+        assertEquals(rec.getDistrict(), "Not_Supported");
+    }
+
+    @Test
+    void TestQueryASN() throws IOException {
+        loc.Open(binfilepath);
+        IPResult rec = loc.IPQuery(ip);
+        assertEquals(rec.getASN(), "Not_Supported");
+    }
+
+    @Test
+    void TestQueryAS() throws IOException {
+        loc.Open(binfilepath);
+        IPResult rec = loc.IPQuery(ip);
+        assertEquals(rec.getAS(), "Not_Supported");
+    }
+
     @AfterEach
     void TearDown() {
         loc.Close();

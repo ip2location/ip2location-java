@@ -10,13 +10,11 @@ import com.opencsv.exceptions.*;
 /**
  * This class parses region information CSV and returns the region code.
  * <p>
- * <b>Requirements:</b> Java SDK 1.4 or later<br>
- * <p>
- * Copyright (c) 2002-2022 IP2Location.com
+ * Copyright (c) 2002-2023 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.10.0
+ * @version 8.11.0
  */
 public class Region {
     private final Map<String, List<Map<String, String>>> records = new HashMap<>();

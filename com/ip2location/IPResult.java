@@ -3,13 +3,11 @@ package com.ip2location;
 /**
  * This class is used to store the geolocation data that is returned by the IP2Location class.
  * <p>
- * <b>Requirements:</b> Java SDK 1.4 or later<br>
- * <p>
- * Copyright (c) 2002-2022 IP2Location.com
+ * Copyright (c) 2002-2023 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.10.0
+ * @version 8.11.0
  */
 public class IPResult {
     static final String NOT_SUPPORTED = "Not_Supported";
@@ -36,9 +34,12 @@ public class IPResult {
     String usagetype;
     String addresstype;
     String category;
+    String district;
+    String asn;
+    String as;
     String status;
     boolean delay = false;
-    String version = "Version 8.10.0";
+    String version = "Version 8.11.0";
 
     IPResult(String ipstring) {
         ip_address = ipstring;
@@ -243,6 +244,33 @@ public class IPResult {
     }
 
     /**
+     * This method to get district.
+     *
+     * @return the district.
+     */
+    public String getDistrict() {
+        return district;
+    }
+
+    /**
+     * This method to get autonomous system number (ASN).
+     *
+     * @return the ASN.
+     */
+    public String getASN() {
+        return asn;
+    }
+
+    /**
+     * This method to get autonomous system (AS).
+     *
+     * @return the AS.
+     */
+    public String getAS() {
+        return as;
+    }
+
+    /**
      * This method to get status code of query.
      *
      * @return the status code
@@ -300,6 +328,9 @@ public class IPResult {
         buf.append("\tUsageType = " + usagetype + NL);
         buf.append("\tAddressType = " + addresstype + NL);
         buf.append("\tCategory = " + category + NL);
+        buf.append("\tDistrict = " + district + NL);
+        buf.append("\tASN = " + asn + NL);
+        buf.append("\tAS = " + as + NL);
         return buf.toString();
     }
 }
