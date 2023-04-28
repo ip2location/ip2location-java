@@ -17,7 +17,7 @@ import com.opencsv.exceptions.*;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.11.0
+ * @version 8.11.1
  */
 public class Country {
     private final Map<String, Map<String, String>> records = new HashMap<>();
