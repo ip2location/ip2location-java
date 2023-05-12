@@ -153,13 +153,15 @@ public class Main
 ## Methods
 Below are the methods supported in this class.
 
-|Method Name|Description|
-|---|---|
-|Open(String APIKey, String Package, boolean UseSSL)|Initialize component.|
-|IPQuery(String IPAddress)|Query IP address. This method returns a JsonObject.|
-|IPQuery(String IPAddress, String Language)|Query IP address and translation language. This method returns a JsonObject.|
-|IPQuery(String IPAddress, String[] AddOns, String Language)|Query IP address and Addons. This method returns a JsonObject.|
-|GetCredit()|This method returns the web service credit balance in a JsonObject.|
+| Method Name                                                              | Description                                                                             |
+|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| Open(String APIKey, String Package, boolean UseSSL)                      | Initialize component.                                                                   |
+| IPQuery(String IPAddress)                                                | Query IP address. This method returns a JsonObject.                                     |
+| IPQuery(String IPAddress, String Language)                               | Query IP address and translation language. This method returns a JsonObject.            |
+| IPQuery(String IPAddress, String[] AddOns)                               | Query IP address and Addons. This method returns a JsonObject.                          |
+| IPQuery(String IPAddress, String[] AddOns, String Language)              | Query IP address and Addons and translation language. This method returns a JsonObject. |
+| IPQuery(String IPAddress, String Host, String[] AddOns, String Language) | Query IP address and Addons and translation language. This method returns a JsonObject. |
+| GetCredit()                                                              | This method returns the web service credit balance in a JsonObject.                     |
 
 Below are the Addons supported in this class.
 
