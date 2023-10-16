@@ -1,9 +1,13 @@
 package com.ip2location;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.opencsv.*;
 import com.opencsv.exceptions.*;
 
@@ -79,5 +83,7 @@ public class Region {
      * @deprecated  Use {{@link #getRegionCode(String, String)} instead.
      */
     @Deprecated
-    public String GetRegionCode(final String countryCode, final String regionName) throws IOException {}
+    public String GetRegionCode(final String countryCode, final String regionName) throws IOException {
+        return getRegionCode(countryCode, regionName);
+    }
 }
