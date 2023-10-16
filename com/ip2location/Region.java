@@ -57,7 +57,7 @@ public class Region {
      * @param regionName  Region name
      * @return String     region code
      */
-    public String GetRegionCode(final String countryCode, final String regionName) throws IOException {
+    public String getRegionCode(final String countryCode, final String regionName) throws IOException {
         if (records.isEmpty()) {
             throw new IOException("No record available.");
         } else {
@@ -74,4 +74,10 @@ public class Region {
         }
         return null;
     }
+
+    /**
+     * @deprecated  Use {{@link #getRegionCode(String, String)} instead.
+     */
+    @Deprecated
+    public String GetRegionCode(final String countryCode, final String regionName) throws IOException {}
 }
