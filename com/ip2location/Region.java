@@ -1,9 +1,13 @@
 package com.ip2location;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.opencsv.*;
 import com.opencsv.exceptions.*;
 
@@ -53,26 +57,33 @@ public class Region {
     /**
      * This function gets the region code for the supplied country code and region name.
      *
-     * @param CountryCode ISO-3166 country code
-     * @param RegionName  Region name
-     * @return String
+     * @param countryCode ISO-3166 country code
+     * @param regionName  Region name
+     * @return String     region code
      */
-    public String GetRegionCode(String CountryCode, String RegionName) throws IOException {
+    public String getRegionCode(final String countryCode, final String regionName) throws IOException {
         if (records.isEmpty()) {
             throw new IOException("No record available.");
         } else {
-            if (!records.containsKey(CountryCode)) {
+            final List<Map<String, String>> items = records.get(countryCode);
+            if (items == null)
                 return null;
-            }
-            List<Map<String, String>> items = records.get(CountryCode);
 
+            final String region = regionName.toUpperCase();
             for (Map<String, String> item : items) {
-                if (item.containsKey(RegionName.toUpperCase())) {
-                    return item.get(RegionName.toUpperCase());
-                }
+                final String regionCode = item.get(region);
+                if (regionCode != null)
+                    return regionCode;
             }
         }
         return null;
     }
 
+    /**
+     * @deprecated  Use {{@link #getRegionCode(String, String)} instead.
+     */
+    @Deprecated
+    public String GetRegionCode(final String countryCode, final String regionName) throws IOException {
+        return getRegionCode(countryCode, regionName);
+    }
 }
