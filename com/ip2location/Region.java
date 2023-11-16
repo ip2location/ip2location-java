@@ -1,5 +1,8 @@
 package com.ip2location;
 
+import com.opencsv.*;
+import com.opencsv.exceptions.*;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.opencsv.*;
-import com.opencsv.exceptions.*;
-
 /**
  * This class parses region information CSV and returns the region code.
  * <p>
@@ -18,7 +18,7 @@ import com.opencsv.exceptions.*;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.11.1
+ * @version 8.11.2
  */
 public class Region {
     private final Map<String, List<Map<String, String>>> records = new HashMap<>();
@@ -66,21 +66,19 @@ public class Region {
             throw new IOException("No record available.");
         } else {
             final List<Map<String, String>> items = records.get(countryCode);
-            if (items == null)
-                return null;
+            if (items == null) return null;
 
             final String region = regionName.toUpperCase();
             for (Map<String, String> item : items) {
                 final String regionCode = item.get(region);
-                if (regionCode != null)
-                    return regionCode;
+                if (regionCode != null) return regionCode;
             }
         }
         return null;
     }
 
     /**
-     * @deprecated  Use {{@link #getRegionCode(String, String)} instead.
+     * @deprecated Use {{@link #getRegionCode(String, String)} instead.
      */
     @Deprecated
     public String GetRegionCode(final String countryCode, final String regionName) throws IOException {
