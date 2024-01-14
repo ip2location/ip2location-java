@@ -5,8 +5,8 @@
 
 # -- Project information
 
-project = 'IP2Location Go'
-copyright = '2023, IP2Location'
+project = 'IP2Location Java'
+copyright = '2024, IP2Location'
 author = 'IP2Location'
 
 release = '1.0.0'
@@ -23,8 +23,8 @@ extensions = [
 
 # https://myst-parser.readthedocs.io/en/latest/configuration.html#setting-html-metadata
 myst_html_meta = {
-    "description": "IP2Location Go module provides a fast lookup of geolocation information from IP address by using IP2Location database.",
-    "keywords": "IP2Location, Geolocation, IP location, Go",
+    "description": "IP2Location Java Component provides a fast lookup of geolocation information from IP address by using IP2Location database.",
+    "keywords": "IP2Location, Geolocation, IP location, Java",
     "google-site-verification": "DeW6mXDyMnMt4i61ZJBNuoADPimo5266DKob7Z7d6i4",
 }
 
@@ -59,6 +59,6 @@ html_logo = 'images/ipl-logo-square-1200.png'
 # Favicon
 html_favicon = 'images/favicon.ico'
 
-html_title = "IP2Location Go"
+html_title = "IP2Location Java"
 
 # html_baseurl = "https://ip2location-go.readthedocs.io/en/latest/"
