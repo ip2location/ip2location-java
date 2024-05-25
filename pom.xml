@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ip2location</groupId>
   <artifactId>ip2location-java</artifactId>
-  <version>0.0.1</version>
+  <version>8.11.3</version>
   <dependencies>
 	<dependency>
 		<groupId>com.google.code.gson</groupId>
