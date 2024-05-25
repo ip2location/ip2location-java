@@ -1,3 +1,5 @@
+package com.ip2location;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.*;
 import java.io.*;
-
-import com.ip2location.*;
 
 class IP2LocationTest {
     private static IP2Location loc;
