@@ -217,6 +217,18 @@ class IP2LocationTest {
         assertEquals(rec.getAS(), "Not_Supported");
     }
 
+    @Test
+    void TestMetaData() throws IOException {
+        loc.Open(binfilepath);
+        MetaData metaData = loc.MetaData();
+        assertEquals(14, metaData.getDBDay());
+        assertEquals(3, metaData.getDBMonth());
+        assertEquals(21, metaData.getDBYear());
+        assertEquals(195811, metaData.getDBCount());
+        assertEquals(2, metaData.getDBColumn());
+        assertEquals(2094492, metaData.getFileSize());
+    }
+
     @AfterEach
     void TearDown() {
         loc.Close();

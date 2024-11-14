@@ -770,6 +770,10 @@ public class IP2Location {
         }
     }
 
+    public MetaData MetaData() {
+        return _MetaData;
+    }
+
     private String[] expandIPV6(final String myIP, final int myiptype) {
         final String tmp = "0000:0000:0000:0000:0000:";
         final String padme = "0000";

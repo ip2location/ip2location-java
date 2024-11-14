@@ -1,7 +1,6 @@
 package com.ip2location;
 
-// package-private access
-class MetaData {
+public class MetaData {
     private int _BaseAddr = 0;
     private int _DBCount = 0;
     private int _DBColumn = 0;
@@ -24,16 +23,15 @@ class MetaData {
 
     }
 
-    // all package-private access
     int getBaseAddr() {
         return _BaseAddr;
     }
 
-    int getDBCount() {
+    public int getDBCount() {
         return _DBCount;
     }
 
-    int getDBColumn() {
+    public int getDBColumn() {
         return _DBColumn;
     }
 
@@ -41,15 +39,15 @@ class MetaData {
         return _DBType;
     }
 
-    int getDBDay() {
+    public int getDBDay() {
         return _DBDay;
     }
 
-    int getDBMonth() {
+    public int getDBMonth() {
         return _DBMonth;
     }
 
-    int getDBYear() {
+    public int getDBYear() {
         return _DBYear;
     }
 
@@ -89,7 +87,7 @@ class MetaData {
         return _ProductType;
     }
 
-    int getFileSize() {
+    public int getFileSize() {
         return _FileSize;
     }
 
