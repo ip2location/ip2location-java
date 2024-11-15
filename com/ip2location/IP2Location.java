@@ -30,11 +30,11 @@ import java.text.DecimalFormatSymbols;
  *   <li>And much, much more!</li>
  * </ul>
  * <p>
- * Copyright (c) 2002-2023 IP2Location.com
+ * Copyright (c) 2002-2024 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.11.2
+ * @version 8.12.0
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -76,6 +76,7 @@ public class IP2Location {
     private static final int[] ASN_POSITION = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24};
     private static final int[] AS_POSITION = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25};
     static final DecimalFormat GEO_COORDINATE_FORMAT;
+
     static {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
         symbols.setDecimalSeparator('.');
@@ -162,13 +163,49 @@ public class IP2Location {
 
         interface Supplier {
             FileLike open() throws IOException;
+
             boolean isValid();
         }
 
         int read(byte[] buffer) throws IOException;
+
         int read(byte b[], int off, int len) throws IOException;
+
         void seek(long pos) throws IOException;
+
         void close() throws IOException;
+    }
+
+    /**
+     * This function returns the package version.
+     *
+     * @return Package version
+     */
+    public String GetPackageVersion() {
+        if (_MetaData == null) {
+            return "";
+        }
+        if (_MetaData.getDBType() == 0) {
+            return "";
+        } else {
+            return String.valueOf(_MetaData.getDBType());
+        }
+    }
+
+    /**
+     * This function returns the IP database version.
+     *
+     * @return IP database version
+     */
+    public String GetDatabaseVersion() {
+        if (_MetaData == null) {
+            return "";
+        }
+        if (_MetaData.getDBYear() == 0) {
+            return "";
+        } else {
+            return "20" + _MetaData.getDBYear() + "." + _MetaData.getDBMonth() + "." + _MetaData.getDBDay();
+        }
     }
 
     /**

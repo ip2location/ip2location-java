@@ -30,11 +30,11 @@ import java.util.regex.Pattern;
  *   <li>Converts CIDR to IPv6 range</li>
  * </ul>
  * <p>
- * Copyright (c) 2002-2023 IP2Location.com
+ * Copyright (c) 2002-2024 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.11.2
+ * @version 8.12.0
  */
 public class IPTools {
     private static final BigInteger MAX_IPV4_RANGE = new BigInteger("4294967295");

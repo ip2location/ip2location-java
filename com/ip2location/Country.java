@@ -13,11 +13,11 @@ import com.opencsv.exceptions.*;
 /**
  * This class parses country information CSV and returns the country information.
  * <p>
- * Copyright (c) 2002-2023 IP2Location.com
+ * Copyright (c) 2002-2024 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.11.2
+ * @version 8.12.0
  */
 public class Country {
     private final Map<String, Map<String, String>> records = new HashMap<>();
