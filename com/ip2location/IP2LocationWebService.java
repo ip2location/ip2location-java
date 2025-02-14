@@ -22,11 +22,11 @@ import org.apache.commons.lang3.StringUtils;
  *   <li>And much, much more!</li>
  * </ul>
  * <p>
- * Copyright (c) 2002-2024 IP2Location.com
+ * Copyright (c) 2002-2025 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.0
+ * @version 8.12.1
  */
 public class IP2LocationWebService {
     private static final Pattern pattern = Pattern.compile("^[\\dA-Z]{10}$");

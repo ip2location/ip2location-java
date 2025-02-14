@@ -30,11 +30,11 @@ import java.text.DecimalFormatSymbols;
  *   <li>And much, much more!</li>
  * </ul>
  * <p>
- * Copyright (c) 2002-2024 IP2Location.com
+ * Copyright (c) 2002-2025 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.0
+ * @version 8.12.1
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -501,7 +501,7 @@ public class IP2Location {
      */
     public IPResult IPQuery(String IPAddress) throws IOException {
         if (IPAddress != null) {
-            IPAddress = IPAddress.trim();    
+            IPAddress = IPAddress.trim();
         }
         IPResult record = new IPResult(IPAddress);
         FileLike filehandle = null;

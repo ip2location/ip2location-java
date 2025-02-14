@@ -3,11 +3,11 @@ package com.ip2location;
 /**
  * This class is used to store the geolocation data that is returned by the IP2Location class.
  * <p>
- * Copyright (c) 2002-2024 IP2Location.com
+ * Copyright (c) 2002-2025 IP2Location.com
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.0
+ * @version 8.12.1
  */
 public class IPResult {
     static final String NOT_SUPPORTED = "Not_Supported";
@@ -39,7 +39,7 @@ public class IPResult {
     String as;
     String status;
     boolean delay = false;
-    String version = "Version 8.11.2";
+    String version = "Version 8.12.1";
 
     IPResult(String ipstring) {
         ip_address = ipstring;
