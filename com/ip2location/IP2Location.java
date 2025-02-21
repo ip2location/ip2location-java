@@ -34,7 +34,7 @@ import java.text.DecimalFormatSymbols;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.1
+ * @version 8.12.2
  */
 public class IP2Location {
     private static final Pattern pattern = Pattern.compile("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"); // IPv4
@@ -305,7 +305,7 @@ public class IP2Location {
         _MapDataBuffer = null;
     }
 
-    private void CreateMappedBytes() throws IOException {
+    private synchronized void CreateMappedBytes() throws IOException {
         try (RandomAccessFile aFile = new RandomAccessFile(IPDatabasePath, "r")) {
             final FileChannel inChannel = aFile.getChannel();
             CreateMappedBytes(inChannel);

@@ -7,7 +7,7 @@ package com.ip2location;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.1
+ * @version 8.12.2
  */
 public class IPResult {
     static final String NOT_SUPPORTED = "Not_Supported";
@@ -39,7 +39,7 @@ public class IPResult {
     String as;
     String status;
     boolean delay = false;
-    String version = "Version 8.12.1";
+    String version = "Version 8.12.2";
 
     IPResult(String ipstring) {
         ip_address = ipstring;
