@@ -18,7 +18,7 @@ import java.util.Map;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.2
+ * @version 8.13.0
  */
 public class Region {
     private final Map<String, List<Map<String, String>>> records = new HashMap<>();

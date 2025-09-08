@@ -7,7 +7,7 @@ package com.ip2location;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.2
+ * @version 8.13.0
  */
 public class IPResult {
     static final String NOT_SUPPORTED = "Not_Supported";
@@ -37,9 +37,12 @@ public class IPResult {
     String district;
     String asn;
     String as;
+    String asdomain;
+    String asusagetype;
+    String ascidr;
     String status;
     boolean delay = false;
-    String version = "Version 8.12.2";
+    String version = "Version 8.13.0";
 
     IPResult(String ipstring) {
         ip_address = ipstring;
@@ -271,6 +274,33 @@ public class IPResult {
     }
 
     /**
+     * This method to get AS domain.
+     *
+     * @return the AS domain.
+     */
+    public String getASDomain() {
+        return asdomain;
+    }
+
+    /**
+     * This method to get AS usage type.
+     *
+     * @return the AS usage type.
+     */
+    public String getASUsageType() {
+        return asusagetype;
+    }
+
+    /**
+     * This method to get AS CIDR.
+     *
+     * @return the AS CIDR.
+     */
+    public String getASCIDR() {
+        return ascidr;
+    }
+
+    /**
      * This method to get status code of query.
      *
      * @return the status code
@@ -331,6 +361,9 @@ public class IPResult {
         buf.append("\tDistrict = " + district + NL);
         buf.append("\tASN = " + asn + NL);
         buf.append("\tAS = " + as + NL);
+        buf.append("\tASDomain = " + asdomain + NL);
+        buf.append("\tASUsageType = " + asusagetype + NL);
+        buf.append("\tASCIDR = " + ascidr + NL);
         return buf.toString();
     }
 }

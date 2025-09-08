@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * <p>
  *
  * @author IP2Location.com
- * @version 8.12.2
+ * @version 8.13.0
  */
 public class IPTools {
     private static final BigInteger MAX_IPV4_RANGE = new BigInteger("4294967295");
